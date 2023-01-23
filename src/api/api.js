@@ -30,5 +30,15 @@ export const api = {
         const url = `https://api.github.com/repos/${owner}/${name}/issues?page=${page}`
         const response = await fetch(url)
         return await response.json()
-    }
+    },
+    async listaContents(owner, nameRepo, path, page, ) {
+        const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/`
+        const response = await fetch(url)
+        return await response.json()
+    },
+    async listaFolderOrArchive(owner, nameRepo, path, page, ) {
+        const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/${path}`
+        const response = await fetch(url)
+        return await response.json()
+    },
 }

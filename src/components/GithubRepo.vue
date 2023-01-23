@@ -11,7 +11,7 @@
         item-text="login"
       />
       </v-col>
-      <v-col cols="6">
+      <!-- <v-col cols="6">
         <v-select
           v-model="repo"
           :items="repolist"
@@ -21,8 +21,34 @@
           return-object
           single-line
         ></v-select>
-      </v-col>
+      </v-col> -->
     </v-row>
+    <h1>Lista Repos</h1>
+    <v-card
+    class="mx-auto"
+    max-width="400"
+    >
+    <v-list flat>
+      <v-list-item-group
+        color="indigo"
+      >
+        <v-list-item
+          v-for="(item, i) in repolist"
+          :key="i"
+        >
+          <!-- <v-list-item-icon>
+            <v-icon v-text="item.icon"></v-icon>
+          </v-list-item-icon> -->
+
+          <v-list-item-content @click="listaContents(item.name)" >
+            <v-list-item-title v-text="item.name"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
+  <div>
+  </div>
   </div>
 </template>
 
@@ -35,6 +61,7 @@
     data: () => ({
       user: null,
       repo: null,
+      path: null,
       usersearch: null,
       userlist: [],
       repolist: [],
@@ -53,7 +80,24 @@
         const data = await api.lista_repos(this.user)
         this.repolist = data
         this.repoloading = false
-      }
+      }, 
+      async listaContents(nameRepo){
+        debugger
+        this.repoloading = true
+        const data = await api.listaContents(this.user, nameRepo, )
+        this.repolist = data
+        this.repoloading = false
+        
+      }, 
+      async listaFolderOrArchive(owner, nameRepo, path){
+        debugger
+        // this.path = name + "/"
+        this.repoloading = true
+        const data = await api.listaContents(this.user, nameRepo, path)
+        this.repolist = data
+        this.repoloading = false
+      }, 
+      
     },
     watch: {
       usersearch () {
@@ -66,7 +110,11 @@
       },
       repo () {
         this.$emit('reposelected', this.repo)
-      }
+      },
+      // contents () {
+      //   this.$emit('reposelected', this.repo)
+      // }
+
     }
   }
 </script>

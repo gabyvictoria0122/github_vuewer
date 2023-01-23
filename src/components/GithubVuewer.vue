@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <GithubRepo @reposelected="onRepoSelected"/>
-    <GithubIssues :repo="repo"/>
+    <!-- <GithubIssues :repo="repo"/> -->
   </v-container>
 </template>
   
@@ -11,7 +11,7 @@
   export default {
     components: {
       GithubRepo,
-      GithubIssues,
+      // GithubIssues,
     },
     data: () => ({
       repo: null

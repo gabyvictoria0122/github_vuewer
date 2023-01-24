@@ -37,6 +37,7 @@ export const api = {
         return await response.json()
     },
     async listaFolderOrArchive(owner, nameRepo, path) {
+        debugger
         const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/${path}`
         const response = await fetch(url)
         return await response.json()

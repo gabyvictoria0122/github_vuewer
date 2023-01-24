@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>OLHAAA</h1>
         {{ itemsPath }}
     </div>
 </template>

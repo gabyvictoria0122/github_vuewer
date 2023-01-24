@@ -163,7 +163,7 @@ export const api = {
         ]
         return later(result)
     },
-    async listaConteudoRepo(owner, name) {
+    async listaContents(owner, name) {
         const result = [
             {
               "name": ".github",
@@ -247,5 +247,8 @@ export const api = {
             }
           ]
         return later(result)
+    },
+    async listaFolderOrArchive(owner, nameRepo, path) {
+      
     }
 }

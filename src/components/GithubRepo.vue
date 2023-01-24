@@ -55,7 +55,7 @@
                 <v-icon v-text="item.icon"></v-icon>
               </v-list-item-icon> -->
 
-              <v-list-item-content @click="listaContents(item.name)" >
+              <v-list-item-content @click="listaFolderOrArchive(item.name)" >
                 <v-list-item-title v-text="item.name"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -82,6 +82,7 @@
       path: null,
       usersearch: null,
       nameRepo: null,
+      caminho: null,
       userlist: [],
       repolist: [],
       contents: [],
@@ -114,12 +115,12 @@
         this.contents = data
         this.repoloading = false
       }, 
-      async listaFolderOrArchive(owner, nameRepo, path){
+      async listaFolderOrArchive(path){
         debugger
-        // this.path = name + "/"
+        this.caminho += '/' + this.path
         this.repoloading = true
-        const data = await api.listaContents(this.user, nameRepo, path)
-        this.repolist = data
+        const data = await api.listaFolderOrArchive(this.user, this.nameRepo, this.caminho)
+        this.contents = data
         this.repoloading = false
       }, 
       

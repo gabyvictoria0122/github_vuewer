@@ -79,7 +79,7 @@
     data: () => ({
       user: null,
       repo: null,
-      path: '/',
+      path: null,
       usersearch: null,
       nameRepo: null,
       userlist: [],

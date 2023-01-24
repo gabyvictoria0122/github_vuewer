@@ -31,12 +31,12 @@ export const api = {
         const response = await fetch(url)
         return await response.json()
     },
-    async listaContents(owner, nameRepo, path, page, ) {
+    async listaContents(owner, nameRepo) {
         const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/`
         const response = await fetch(url)
         return await response.json()
     },
-    async listaFolderOrArchive(owner, nameRepo, path, page, ) {
+    async listaFolderOrArchive(owner, nameRepo, path) {
         const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/${path}`
         const response = await fetch(url)
         return await response.json()

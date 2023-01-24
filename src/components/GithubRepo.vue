@@ -55,7 +55,7 @@
                 <v-icon v-text="item.icon"></v-icon>
               </v-list-item-icon> -->
 
-              <v-list-item-content @click="listaFolderOrArchive(item.name)" >
+              <v-list-item-content @click="listaFolderOrArchive(item.path)" >
                 <v-list-item-title v-text="item.name"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -101,6 +101,7 @@
         
       }, 500),
       async listaRepositorios(){
+        
         this.bollRepo = true
         this.repoloading = true
         const data = await api.lista_repos(this.user)
@@ -118,22 +119,12 @@
         this.repoloading = false
       }, 
       async listaFolderOrArchive(path){
-        if (this.caminho == null){
-          this.caminho = path
-        } else{
-          this.caminho += '/' + path
-        }
-        if (path.indexOf(".") !== -1){
-          // tem ponto
-          const data = await api.listaFolder(this.user, this.nameRepo, this.caminho, this.branch)
-        } else{
-          this.repoloading = true
-          const data = await api.listaArchive(this.user, this.nameRepo, this.caminho)
-          this.contents = data
-          this.repoloading = false
-        }
-      }, 
-      
+        this.path = path
+        this.repoloading = true
+        const data = await api.listaArchive(this.user, this.nameRepo, path)
+        this.contents = data
+        this.repoloading = false
+      },
     },
     watch: {
       usersearch () {

@@ -83,6 +83,7 @@
       usersearch: null,
       nameRepo: null,
       caminho: null,
+      branch: null,
       userlist: [],
       repolist: [],
       contents: [],
@@ -104,6 +105,7 @@
         this.repoloading = true
         const data = await api.lista_repos(this.user)
         this.repolist = data
+        this.branch = data.default_branch
         this.repoloading = false
       }, 
       async listaContents(nameRepo){
@@ -116,12 +118,20 @@
         this.repoloading = false
       }, 
       async listaFolderOrArchive(path){
-        debugger
-        this.caminho += '/' + this.path
-        this.repoloading = true
-        const data = await api.listaFolderOrArchive(this.user, this.nameRepo, this.caminho)
-        this.contents = data
-        this.repoloading = false
+        if (this.caminho == null){
+          this.caminho = path
+        } else{
+          this.caminho += '/' + path
+        }
+        if (path.indexOf(".") !== -1){
+          // tem ponto
+          const data = await api.listaFolder(this.user, this.nameRepo, this.caminho, this.branch)
+        } else{
+          this.repoloading = true
+          const data = await api.listaArchive(this.user, this.nameRepo, this.caminho)
+          this.contents = data
+          this.repoloading = false
+        }
       }, 
       
     },

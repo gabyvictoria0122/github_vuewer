@@ -36,9 +36,15 @@ export const api = {
         const response = await fetch(url)
         return await response.json()
     },
-    async listaFolderOrArchive(owner, nameRepo, path) {
+    async listaArchive(owner, nameRepo, path) {
         debugger
         const url = `https://api.github.com/repos/${owner}/${nameRepo}/contents/${path}`
+        const response = await fetch(url)
+        return await response.json()
+    },
+    async listaFolder(owner, nameRepo, path, default_branch) {
+        debugger
+        const url = `https://raw.githubusercontent.com/${owner}/${nameRepo}/${default_branch}/${path}`
         const response = await fetch(url)
         return await response.json()
     },

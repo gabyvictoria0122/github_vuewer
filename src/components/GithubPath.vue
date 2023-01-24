@@ -12,7 +12,7 @@
             <v-tab
                 v-for="i in itemsPath"
                 :key="i"
-                :href="caminho"
+                :href="`https://api.github.com/users/${i}/repos`"
             >
                 {{ i }}
             </v-tab>
@@ -43,3 +43,4 @@ export default {
     },
 }
 </script>
+// repo -> `https://api.github.com/users/${username}/repos`

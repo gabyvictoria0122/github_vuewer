@@ -10,7 +10,23 @@
         item-text="login"
       />
       </v-col>
-      <GithubPath :user="user" :nameRepo="nameRepo" :path="path"/>
+       <v-card>
+            <v-tabs
+            dark
+            background-color="teal darken-3"
+            show-arrows
+            >
+            <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+
+            <v-tab
+                v-for="i in itemsPath"
+                :key="i"
+                @click="volta(i)"
+            >
+                {{ i }}
+            </v-tab>
+            </v-tabs>
+        </v-card>
       <div v-if="bollRepo">
         <h1>Lista Repos</h1>
         <v-card
@@ -37,7 +53,7 @@
         </v-list>
         </v-card>
       </div>
-      <div v-if="bollContents">
+      <div v-else>
         <h1>Lista Conteudos</h1>
         <v-card
         class="mx-auto"
@@ -74,7 +90,7 @@
 
   export default {
     components: {
-      GithubPath,
+      
     },
     data: () => ({
       user: null,
@@ -101,7 +117,6 @@
         
       }, 500),
       async listaRepositorios(){
-        
         this.bollRepo = true
         this.repoloading = true
         const data = await api.lista_repos(this.user)
@@ -125,6 +140,26 @@
         this.contents = data
         this.repoloading = false
       },
+      volta (i){
+        debugger
+        let executa = null
+        if (i == this.user){
+           executa = this.listaRepositorios()
+           this.itemsPath == []
+        } else{
+          executa = this.listaContents()
+        }
+        return executa()
+        // se priemiro repo
+        // pasta dentro de pasta 
+      }, 
+    },
+    computed: {
+        itemsPath(){
+            let array = [this.user, this.nameRepo, this.path]
+            return (array[0] === null)? null : array
+            // return ['tonylampada', 'pasta', 'arquivo'] //TODO gerar esse array a partir de this.user e this.path
+        }
     },
     watch: {
       usersearch () {

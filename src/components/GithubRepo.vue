@@ -15,13 +15,17 @@
             dark
             background-color="teal darken-3"
             show-arrows
+            hide-slider
+            active-class
+            leave-absolute
+            reverse-transition
             >
-            <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+            <!-- <v-tabs-slider color="teal lighten-3"></v-tabs-slider> -->
 
             <v-tab
-                v-for="i in itemsPath"
+                v-for="i in arrayPath"
                 :key="i"
-                @click="volta(i)"
+                @click="volta(i, arrayPath)"
             >
                 {{ i }}
             </v-tab>
@@ -61,11 +65,12 @@
         >
         <v-list flat>
           <v-list-item-group
-            color="indigo"
+            color="primary"
           >
             <v-list-item
               v-for="(item, i) in contents"
               :key="i"
+              :href="`#tab-${i}`"
             >
               <!-- <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
@@ -100,9 +105,11 @@
       nameRepo: null,
       caminho: null,
       branch: null,
+      model: 'Tarefa01',
       userlist: [],
       repolist: [],
       contents: [],
+      arrayPath: [],
       userloading: false,
       repoloading: false,
       bollRepo: false,
@@ -114,9 +121,10 @@
         const data = await api.search_users(this.usersearch)
         this.userlist = data.items
         this.userloading = false
-        
       }, 500),
       async listaRepositorios(){
+        debugger
+        this.arrayPath = [this.user]
         this.bollRepo = true
         this.repoloading = true
         const data = await api.lista_repos(this.user)
@@ -125,7 +133,9 @@
         this.repoloading = false
       }, 
       async listaContents(nameRepo){
+        debugger
         this.nameRepo = nameRepo
+        this.arrayPath = [this.user, this.nameRepo]
         this.bollRepo = false
         this.bollContents = true
         this.repoloading = true
@@ -134,22 +144,29 @@
         this.repoloading = false
       }, 
       async listaFolderOrArchive(path){
+        debugger
+        this.arrayPath = [this.user, this.nameRepo, path]
         this.path = path
         this.repoloading = true
         const data = await api.listaArchive(this.user, this.nameRepo, path)
         this.contents = data
         this.repoloading = false
       },
-      volta (i){
+      volta (i, itemsPath){
         debugger
         let executa = null
+        // let indice = this.itemsPath.indexOf(i)
         if (i == this.user){
-           executa = this.listaRepositorios()
-           this.itemsPath == []
+          executa = this.listaRepositorios()
+        } else if(i == this.nameRepo){
+          executa = this.listaContents(i)
         } else{
-          executa = this.listaContents()
+          executa = this.listaFolderOrArchive
         }
-        return executa()
+        // let indice = itemsPath.indexOf(i)+1
+        // let tamanho = itemsPath.length
+        // this.itemsPath.splice((indice),(tamanho-indice));
+        return executa
         // se priemiro repo
         // pasta dentro de pasta 
       }, 

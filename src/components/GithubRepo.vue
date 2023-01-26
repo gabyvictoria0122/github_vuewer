@@ -10,7 +10,9 @@
         item-text="login"
       />
       </v-col>
-       <v-card>
+      <v-breadcrumbs :items="items"></v-breadcrumbs>
+
+      <v-card>
             <v-tabs
             dark
             background-color="teal darken-3"
@@ -31,6 +33,9 @@
             </v-tab>
             </v-tabs>
         </v-card>
+      <v-divider></v-divider>
+      <v-divider></v-divider>
+      <v-divider></v-divider>
       <div v-if="bollRepo">
         <h1>Lista Repos</h1>
         <v-card
@@ -114,6 +119,21 @@
       repoloading: false,
       bollRepo: false,
       bollContents: false,
+      items: [
+        
+        'Dashboard',
+          
+        {
+          text: 'Link 1',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
+      ],
     }),
     methods: {
       procuraUsuariosGithub: debouncerdecorator(async function () { // atenção: não use ()=>{} aqui. vai quebrar o decorator

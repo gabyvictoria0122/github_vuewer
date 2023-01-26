@@ -10,31 +10,14 @@
         item-text="login"
       />
       </v-col>
-      <v-breadcrumbs :items="items"></v-breadcrumbs>
-
-      <v-card>
-            <v-tabs
-            dark
-            background-color="teal darken-3"
-            show-arrows
-            hide-slider
-            active-class
-            leave-absolute
-            reverse-transition
-            >
-            <!-- <v-tabs-slider color="teal lighten-3"></v-tabs-slider> -->
-
-            <v-tab
-                v-for="i in arrayPath"
-                :key="i"
-                @click="volta(i, arrayPath)"
-            >
-                {{ i }}
-            </v-tab>
-            </v-tabs>
-        </v-card>
-      <v-divider></v-divider>
-      <v-divider></v-divider>
+      <v-breadcrumbs>
+          <v-breadcrumbs-item
+              v-for="i in arrayPath"
+              :key="i"
+              @click.native="volta(i.text, arrayPath)">
+              {{ i.text + " /"}}
+          </v-breadcrumbs-item>
+      </v-breadcrumbs>
       <v-divider></v-divider>
       <div v-if="bollRepo">
         <h1>Lista Repos</h1>
@@ -144,7 +127,7 @@
       }, 500),
       async listaRepositorios(){
         debugger
-        this.arrayPath = [this.user]
+        this.arrayPath = [{text: this.user, disabled: false}]
         this.bollRepo = true
         this.repoloading = true
         const data = await api.lista_repos(this.user)
@@ -155,7 +138,7 @@
       async listaContents(nameRepo){
         debugger
         this.nameRepo = nameRepo
-        this.arrayPath = [this.user, this.nameRepo]
+        this.arrayPath = [{text: this.user, disabled: true}, {text: this.nameRepo, disabled: false}]
         this.bollRepo = false
         this.bollContents = true
         this.repoloading = true
@@ -165,7 +148,7 @@
       }, 
       async listaFolderOrArchive(path){
         debugger
-        this.arrayPath = [this.user, this.nameRepo, path]
+        this.arrayPath = [{text: this.user, disabled: true}, {text: this.nameRepo, disabled: true}, {text: path, disabled: false}  ]
         this.path = path
         this.repoloading = true
         const data = await api.listaArchive(this.user, this.nameRepo, path)

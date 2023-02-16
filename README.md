@@ -1,4 +1,7 @@
 # github_vuewer
+Navegador de arquivos no Github. [Experimente](https://gabyvictoria0122.github.io/github_vuewer/)
+
+![image](https://user-images.githubusercontent.com/104435995/219430859-b1e982c9-49b4-45cb-a59f-4a9b891b1ec0.png)
 
 ## Project setup
 ```
